@@ -1,36 +1,17 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## This is my gym tracker app
 
-## Getting Started
+## Why
 
-First, run the development server:
+I was using a gym tracker app and they are blocking the features behind a pay wall. So i am building my own to challenge my software dev skills and learn
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## entery 1
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I started by trying to build the routine feature this lets you add your excercies together for a workout and you can store workouts into a routine.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## problem 1
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+starting it like this was confusing because i didn't relise i need to have the data ready and accessible to allow the ability to add exercises into their workout.
 
-## Learn More
+## idea
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Since i am using api. i am going to create a file responsible for fetching the api calls and making that data accessible to the rest of my app. So step 1 connect my web-app to the exercisesDB API

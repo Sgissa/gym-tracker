@@ -3,8 +3,10 @@
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
 import { fetchData, exerciseOptions } from "../lib/FetchData";
+import { Info } from "lucide-react";
 export default function Exercises() {
   const [search, setSearch] = useState("");
+  const [exercises, setExercises] = useState([]);
   const handleSearch = async () => {
     if (search) {
       const exerciseData = await fetchData(
@@ -13,6 +15,7 @@ export default function Exercises() {
       );
 
       console.log(exerciseData);
+      setExercises(exerciseData);
     }
   };
   return (
@@ -33,6 +36,16 @@ export default function Exercises() {
           >
             Search
           </button>
+        </div>
+        <div className="">
+          <ul>
+            {exercises.map((exercise) => (
+              <li key={exercise.id} className="flex gap-2 mb-3">
+                <Info />
+                {exercise.name}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>

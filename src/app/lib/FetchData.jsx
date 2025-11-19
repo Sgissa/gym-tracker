@@ -13,4 +13,4 @@ export const fetchData = async (url, options) => {
   return data;
 };
 
-// console.log("API Key:", process.env.NEXT_PUBLIC_RAPID_API_KEY);
+console.log("API Key:", process.env.NEXT_PUBLIC_RAPID_API_KEY);

@@ -5,8 +5,7 @@ export default function Home() {
   return (
     <main>
       <Navbar></Navbar>
-      <header>Start Workout</header>
-      <Routines></Routines>
+      <h1>Start Workout</h1>
     </main>
   );
 }

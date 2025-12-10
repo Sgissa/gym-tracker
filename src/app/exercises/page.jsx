@@ -1,6 +1,4 @@
 "use client";
-
-import Navbar from "@/components/Navbar";
 import { useState } from "react";
 import { fetchData, exerciseOptions } from "../lib/FetchData";
 import { Info, CirclePlus, CircleX } from "lucide-react";
@@ -63,7 +61,6 @@ export default function Exercises() {
 
   return (
     <main>
-      <Navbar></Navbar>
       {/* search and list  */}
       <div className="flex flex-col items-center justify-center min-h-screen gap-4">
         <h2>Search Exercises</h2>

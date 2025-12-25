@@ -100,6 +100,43 @@ export default function Routines() {
     setRoutineWorkouts(workoutsForRoutines);
   }
 
+  function removeWorkoutFromRoutine(index) {
+    const currentRoutineWorkouts = [...routineWorkouts];
+    currentRoutineWorkouts.splice(index, 1);
+    setRoutineWorkouts(currentRoutineWorkouts);
+  }
+
+  function saveRoutine() {
+    if (!routineName.trim()) {
+      alert("Name Routine!");
+      return;
+    }
+    if (routineWorkouts.length === 0) {
+      alert("Add Workouts!");
+      return;
+    }
+
+    const routine = {
+      name: routineName,
+      workouts: routineWorkouts,
+    };
+
+    const saved = localStorage.getItem("routines");
+
+    let savedRoutines;
+
+    if (saved === null) {
+      savedRoutines = [];
+    } else {
+      savedRoutines = JSON.parse(saved);
+      savedRoutines.push(routine);
+    }
+    localStorage.setItem("routines", JSON.stringify(savedRoutines));
+
+    setRoutineName("");
+    setRoutineWorkouts([]);
+  }
+
   return (
     <>
       {/* The Section for drafting your workout */}
@@ -155,8 +192,8 @@ export default function Routines() {
           <p>No Workouts</p>
         ) : (
           savedWorkouts.map((workout, index) => (
-            <div onClick={() => toggleWorkout(index)}>
-              <p key={index} className="flex gap-1 mb-2">
+            <div key={index} onClick={() => toggleWorkout(index)}>
+              <p className="flex gap-1 mb-2">
                 {workout.name}
                 <SquareChevronRight
                   className={`transition-transform duration-200 ${
@@ -199,14 +236,30 @@ export default function Routines() {
           placeholder="type name..."
           value={routineName}
           onChange={(e) => setRoutineName(e.target.value)}
+          className="mb-3"
         />
         {routineWorkouts.length === 0 ? (
           <p>No Workouts</p>
         ) : (
           routineWorkouts.map((workout, index) => (
-            <p key={index}>{workout.name}</p>
+            <div key={index}>
+              <p>{workout.name}</p>
+              <X
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeWorkoutFromRoutine(index);
+                }}
+              />
+            </div>
           ))
         )}
+
+        <button
+          className="bg-gray-300 p-1.5 shadow-sm cursor-pointer"
+          onClick={() => saveRoutine()}
+        >
+          Save Routine
+        </button>
       </div>
     </>
   );

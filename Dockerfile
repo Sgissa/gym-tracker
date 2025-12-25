@@ -1,37 +1,29 @@
-# FROM node:18-alpine
-
-# WORKDIR /app
-
-# COPY package*.json ./
-# RUN npm install
-
-# COPY . .
-
-# RUN npm run build
-
-# RUN npm install -g serve
-# CMD ["serve", "-s", "build", "-l", "3000"]
-
-# Use official Node image
-FROM node:18
-
-# Set working directory
+# Use Debian-based Node image (works on M1/M2 Macs)
+FROM node:18-bullseye AS base
 WORKDIR /app
 
-# Copy only package files first (better caching)
+# Copy package manifest (for caching installs)
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
-# Now copy the entire project
+# Copy the rest of the code
 COPY . .
 
-# Build Next.js app
+# Build the Next.js app
 RUN npm run build
 
-# Expose port 3000
+# Production runtime image
+FROM node:18-bullseye AS runner
+WORKDIR /app
+
+# Copy built output
+COPY --from=base /app/.next ./.next
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/public ./public
+
 EXPOSE 3000
 
-# Start Next.js
 CMD ["npm", "start"]

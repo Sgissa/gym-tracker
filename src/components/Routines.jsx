@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Save, SquareChevronRight, FilePlusCorner } from "lucide-react";
 
 export default function Routines() {
   const [workout, setWorkout] = useState([]);
   const [workoutName, setWorkoutName] = useState("");
   const [savedWorkouts, setSavedWorkouts] = useState([]);
-
+  const [openIndex, setOpenIndex] = useState(null);
+  const [routineName, setRoutineName] = useState("");
+  const [routineWorkouts, setRoutineWorkouts] = useState([]);
   useEffect(() => {
     let saved = localStorage.getItem("workout");
 
@@ -77,10 +79,31 @@ export default function Routines() {
     console.log(savedWorkouts);
   }
 
+  function toggleWorkout(index) {
+    if (openIndex === index) {
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  }
+
+  function removeSavedWorkout(index) {
+    const currentSavedWorkouts = [...savedWorkouts];
+    currentSavedWorkouts.splice(index, 1);
+    setSavedWorkouts(currentSavedWorkouts);
+    localStorage.setItem("workouts", JSON.stringify(currentSavedWorkouts));
+  }
+
+  function addWorkoutToRoutine(workout) {
+    const workoutsForRoutines = [...routineWorkouts];
+    workoutsForRoutines.push(workout);
+    setRoutineWorkouts(workoutsForRoutines);
+  }
+
   return (
     <>
       {/* The Section for drafting your workout */}
-      <div className="rounded-xl bg-white shadow-lg p-5 border border-gray-100">
+      <div className="rounded-xl bg-white shadow-lg p-5 border border-gray-100 mb-3 w-7xl place-self-center">
         <h2 className="text-xl font-semibold mb-3">Current Workout Draft</h2>
 
         {workout.length === 0 ? (
@@ -126,12 +149,61 @@ export default function Routines() {
         </button>
       </div>
       {/* The Section for displaying your workouts */}
-      <div className="rounded-xl bg-white shadow-lg p-5 border border-gray-100">
+      <div className="rounded-xl bg-white shadow-lg p-5 border border-gray-100 mb-3 w-7xl place-self-center">
         <h2 className="text-xl font-semibold mb-3">Workouts</h2>
         {savedWorkouts.length === 0 ? (
           <p>No Workouts</p>
         ) : (
           savedWorkouts.map((workout, index) => (
+            <div onClick={() => toggleWorkout(index)}>
+              <p key={index} className="flex gap-1 mb-2">
+                {workout.name}
+                <SquareChevronRight
+                  className={`transition-transform duration-200 ${
+                    openIndex === index ? "rotate-90" : "rotate-0"
+                  }`}
+                />
+                <FilePlusCorner
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addWorkoutToRoutine(workout);
+                  }}
+                  className="cursor-pointer"
+                />
+                <X
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeSavedWorkout(index);
+                  }}
+                  className="cursor-pointer"
+                />
+              </p>
+
+              {openIndex === index ? (
+                <div className="mb-1">
+                  {workout.exercises.map((exercise, i) => (
+                    <p key={i}>{exercise.name}</p>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ))
+        )}
+      </div>
+      {/* This Section will be for drafting your routine */}
+      <div className="rounded-xl bg-white shadow-lg p-5 border border-gray-100 mb-3 w-7xl place-self-center">
+        <h2 className="text-xl font-semibold mb-3">Routine Draft</h2>
+        <h3 className="font-semibold">Routine Name</h3>
+        <input
+          type="text"
+          placeholder="type name..."
+          value={routineName}
+          onChange={(e) => setRoutineName(e.target.value)}
+        />
+        {routineWorkouts.length === 0 ? (
+          <p>No Workouts</p>
+        ) : (
+          routineWorkouts.map((workout, index) => (
             <p key={index}>{workout.name}</p>
           ))
         )}

@@ -135,6 +135,7 @@ export default function Routines() {
 
     setRoutineName("");
     setRoutineWorkouts([]);
+    ß;
   }
 
   return (

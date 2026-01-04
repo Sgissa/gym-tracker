@@ -261,6 +261,14 @@ export default function Routines() {
           Save Routine
         </button>
       </div>
+      {/* This section below will be for displaying the routines */}
+      <div className="mb-3 w-7xl bg-white">
+        <h2 className="text-xl font-semibold mb-3">Routines</h2>
+        <div className="grid grid-cols-4 gap-4">
+          {/* fill in cards that will show each routine on a card, i have this div
+          set to hold 4 in a colummn */}
+        </div>
+      </div>
     </>
   );
 }
